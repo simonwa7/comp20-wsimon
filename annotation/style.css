@@ -1,3 +1,17 @@
+body {
+    background-color: pink;
+}
+
+h1 {
+    text-align: center;
+    text-shadow: 1px 2px red;
+}
+
+video {
+    padding-left: 20%;
+}
+
 #lyrics {
-    track.addCue(new VTTCue(0, 12, "[Test]"));
+    text-align: center;
+    font-family: "Comic Sans MS", cursive;
 }
