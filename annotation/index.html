@@ -14,7 +14,85 @@
 <div id="lyrics"></div>
 
 <script>
-    // Complete this section and create a CSS file named style.css
+
+    var video = document.getElementById("failvideo");
+    var caption = document.getElementById("lyrics");
+    video.addEventListener("timeupdate", function() {
+        
+        if (video.currentTime < 8){
+            caption.innerHTML = "Hey Everybody! Let's Help Her Sing!";
+        }
+
+        else if (video.currentTime < 13){
+            caption.innerHTML = "You've got me feelin' emotions"
+        }
+
+        else if (video.currentTime < 17){
+            caption.innerHTML = "Deeper than I've ever dreamed of"
+        }
+
+        else if (video.currentTime < 21){
+            caption.innerHTML = "You've got me feelin' emotions"
+        }
+
+        else if (video.currentTime < 26){
+            caption.innerHTML = "Higher than the heavens above"
+        }
+
+        else if (video.currentTime < 30){
+            caption.innerHTML = "I feel good, I feel nice"
+        }
+
+        else if (video.currentTime < 34){
+            caption.innerHTML = "I've never felt so satisfied"
+        }
+
+        else if (video.currentTime < 38){
+            caption.innerHTML = "I'm in love, I'm alive"
+        }
+
+        else if (video.currentTime < 43){
+            caption.innerHTML = "Intoxicated, flyin' high"
+        }
+
+        else if (video.currentTime < 47){
+            caption.innerHTML = "Feels like a dream"
+        }
+
+        else if (video.currentTime < 51){
+            caption.innerHTML = "When you touch me tenderly"
+        }
+
+        else if (video.currentTime < 55){
+            caption.innerHTML = "I don't know if it's real"
+        }
+
+        else if (video.currentTime < 58){
+            caption.innerHTML = "But I like the way I feel inside"
+        }
+
+        else if (video.currentTime < 63){
+            caption.innerHTML = "You've got me feelin' emotions"
+        }
+
+        else if (video.currentTime < 67){
+            caption.innerHTML = "Deeper than I've ever dreamed of"
+        }
+
+        else if (video.currentTime < 71){
+            caption.innerHTML = "You've got me feelin' emotions"
+        }
+
+        else if (video.currentTime < 75){
+            caption.innerHTML = "Higher than the heavens above"
+        }
+
+        else {
+            caption.innerHTML = "Lol Mariah... Nice Try"
+        }
+
+    }, false);
+
 </script>
 </body>
 </html>

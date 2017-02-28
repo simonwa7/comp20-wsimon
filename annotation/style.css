@@ -1,0 +1,3 @@
+#lyrics {
+    track.addCue(new VTTCue(0, 12, "[Test]"));
+}
