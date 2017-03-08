@@ -11,15 +11,11 @@
     <div id="map"></div>
     <script>
         var my_lat_long = {lat: 42.4075, lng: -71.1190};
-        
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
-                var initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                map.setCenter(initialLocation);
-            });
-        }
+
         var map;
+        
         function initMap() {
+        
             map = new google.maps.Map(document.getElementById('map'), {
                 center: my_lat_long,
                 zoom: 15
@@ -30,12 +26,22 @@
                 scaledSize: new google.maps.Size(50,25),
             }
 
-            var marker = new google.maps.Marker({
-                position: my_lat_long,
-                map: map,
-                title: "This is your current location",
-                icon: black_car
-            })
+            if (navigator.geolocation){
+
+                navigator.geolocation.getCurrentPosition(function (position){
+                
+                    var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    var marker = new google.maps.Marker({
+                
+                        position: loc,
+                        map: map,
+                        title: "This is your current location",
+                        icon: black_car
+                    })
+                
+                    map.setCenter(loc);
+                })
+            }
         }
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCNZPvfPAoyaKwq-dRmuzXguwd8cHYvPkY&callback=initMap"
