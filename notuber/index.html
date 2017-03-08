@@ -10,6 +10,7 @@
   <body>
     <div id="map"></div>
     <script>
+
         var my_lat_long = {lat: 42.4075, lng: -71.1190};
 
         var map;
@@ -18,28 +19,89 @@
         
             map = new google.maps.Map(document.getElementById('map'), {
                 center: my_lat_long,
-                zoom: 15
+                zoom: 14
             });
 
             var black_car = {
                 url: "black_car.png",
-                scaledSize: new google.maps.Size(50,25),
+                scaledSize: new google.maps.Size(25,12.5),
+            }
+
+            var passenger = {
+                url: "jumbat.png",
+                scaledSize: new google.maps.Size(25,25)
+            }
+
+            var me = {
+                url: "cone.svg",
+                scaledSize: new google.maps.Size(12.5,12.5)
             }
 
             if (navigator.geolocation){
 
+                var Req = new XMLHttpRequest();
+                Req.open("POST", "https://defense-in-derpth.herokuapp.com/submit");
+                Req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
                 navigator.geolocation.getCurrentPosition(function (position){
                 
-                    var loc = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    my_lat_long = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    map.setCenter(my_lat_long);
+
                     var marker = new google.maps.Marker({
-                
-                        position: loc,
+                        position: my_lat_long,
                         map: map,
-                        title: "This is your current location",
-                        icon: black_car
+                        title: "e0BdmYPs",
+                        icon: passenger
                     })
-                
-                    map.setCenter(loc);
+
+                    var message = "username=e0BdmYPs&lat=";
+                    message += position.coords.latitude += "&lng=";
+                    message += position.coords.longitude;
+
+                    Req.send(message);
+                    Req.addEventListener("load", transfercomplete);
+
+                    function transfercomplete(){
+                        var data = JSON.parse(Req.responseText);
+
+                        if (data.vehicles.length > 0){
+                            addvehicles(data);
+                        }
+                        else if (data.passengers.length > 0){
+                            addpassengers(data);
+                        }
+                    }
+
+                    function addvehicles(vehicle_data){
+                        for (var veh_index = 0; veh_index < vehicle_data.vehicles.length; veh_index++){
+                            addVehicleMarker(vehicle_data.vehicles[veh_index]);
+                        }
+                    }
+
+                    function addpassengers(pass_data){
+                        for (var pass_index = 0; index < pass_data.passengers.length; pass_index++){
+                            addPassengerMarker(pass_data.passengers[index]);
+                        }
+                    }
+
+                    function addVehicleMarker(new_car){
+                        var vehicleMarker = new google.maps.Marker({
+                            position: {lat: new_car.lat, lng: new_car.lng},
+                            map: map,
+                            title: new_car.username,
+                            icon: black_car
+                        })
+                    }
+
+                    function addPassengerMarker(new_passenger){
+                        var passengerMarker = new google.maps.Marker({
+                            position: {lat: new_passenger.lat, lng: new_passenger.lng},
+                            map: map,
+                            title: new_passenger.username,
+                            icon: passenger
+                        })
+                    }
                 })
             }
         }
@@ -48,3 +110,5 @@
     async defer></script>
   </body>
 </html>
+
+<!--e0BdmYPs-->
