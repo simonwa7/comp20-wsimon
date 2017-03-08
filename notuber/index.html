@@ -51,9 +51,18 @@
                     var marker = new google.maps.Marker({
                         position: my_lat_long,
                         map: map,
-                        title: "e0BdmYPs",
                         icon: passenger
                     })
+
+                    var infowindow = new google.maps.InfoWindow({
+                        content: "e0BdmYPs"
+                    });
+
+                    infowindow.open(map, marker);
+
+                    marker.addListener('click', function(){
+                        infowindow.open(map,marker);
+                    });
 
                     var my_lat = position.coords.latitude;
                     var my_lng = position.coords.longitude;
@@ -84,7 +93,7 @@
 
                     function addpassengers(pass_data){
                         for (var pass_index = 0; index < pass_data.passengers.length; pass_index++){
-                            addPassengerMarker(pass_data.passengers[index]);
+                            addPassengerMarker(pass_data.passengers[pass_index]);
                         }
                     }
 
@@ -94,12 +103,18 @@
                         var vehicleMarker = new google.maps.Marker({
                             position: {lat: new_car.lat, lng: new_car.lng},
                             map: map,
-                            title: new_car.username,
                             icon: black_car
                         });
 
+                        var contentString = '<p>Username: ';
+                        contentString += new_car.username;
+                        contentString += '</p>';
+                        contentString += '<p> Distance away: ';
+                        contentString += distance.toString();
+                        contentString += ' miles </p>';
+
                         var infowindow = new google.maps.InfoWindow({
-                            content: distance.toString()
+                            content: contentString
                         });
 
                         vehicleMarker.addListener('click', function(){
@@ -108,12 +123,28 @@
                     }
 
                     function addPassengerMarker(new_passenger){
+                        var pass_distance = get_distance(new_passenger.lat, new_passenger.lng);
+
                         var passengerMarker = new google.maps.Marker({
                             position: {lat: new_passenger.lat, lng: new_passenger.lng},
                             map: map,
-                            title: new_passenger.username,
                             icon: passenger
                         })
+
+                        var pass_contentString = '<p>Username: ';
+                        pass_contentString += new_passenger.username;
+                        pass_contentString += '</p>';
+                        pass_contentString += '<p> Distance to: ';
+                        pass_contentString += pass_distance.toString();
+                        pass_contentString += ' miles </p>';
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: pass_contentString
+                        });
+
+                        vehicleMarker.addListener('click', function(){
+                            infowindow.open(map, passengerMarker);
+                        });
                     }
 
                     function get_distance(lat1, lng1){
@@ -141,5 +172,3 @@
     async defer></script>
   </body>
 </html>
-
-<!--e0BdmYPs-->
