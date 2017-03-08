@@ -55,6 +55,9 @@
                         icon: passenger
                     })
 
+                    var my_lat = position.coords.latitude;
+                    var my_lng = position.coords.longitude;
+
                     var message = "username=e0BdmYPs&lat=";
                     message += position.coords.latitude += "&lng=";
                     message += position.coords.longitude;
@@ -86,12 +89,22 @@
                     }
 
                     function addVehicleMarker(new_car){
+                        var distance = get_distance(new_car.lat, new_car.lng);
+                        
                         var vehicleMarker = new google.maps.Marker({
                             position: {lat: new_car.lat, lng: new_car.lng},
                             map: map,
                             title: new_car.username,
                             icon: black_car
-                        })
+                        });
+
+                        var infowindow = new google.maps.InfoWindow({
+                            content: distance.toString()
+                        });
+
+                        vehicleMarker.addListener('click', function(){
+                            infowindow.open(map, vehicleMarker);
+                        });
                     }
 
                     function addPassengerMarker(new_passenger){
@@ -101,6 +114,24 @@
                             title: new_passenger.username,
                             icon: passenger
                         })
+                    }
+
+                    function get_distance(lat1, lng1){
+                        var R = 3963.2;
+                        var x1 = my_lat - lat1;
+                        var x2 = my_lng - lng1;
+                        var dlat = toRad(x1);
+                        var dlng = toRad(x2);
+                        var a = Math.sin(dlat/2) * Math.sin(dlat/2) + Math.cos(toRad(lat1)) *
+                                Math.cos(toRad(my_lat)) * Math.sin(dlng/2) * Math.sin(dlng/2);
+                        var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+                        var d = R * c;
+
+                        return d;
+                    }
+
+                    function toRad(x){
+                        return ((x * Math.PI)/180);
                     }
                 })
             }
