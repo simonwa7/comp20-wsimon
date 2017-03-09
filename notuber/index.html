@@ -51,7 +51,7 @@
                     var marker = new google.maps.Marker({
                         position: my_lat_long,
                         map: map,
-                        icon: passenger
+                        icon: me
                     })
 
                     var infowindow = new google.maps.InfoWindow({
@@ -77,10 +77,11 @@
                     function transfercomplete(){
                         var data = JSON.parse(Req.responseText);
 
-                        if (data.vehicles.length > 0){
+                        var array_name = Object.keys(data)[0];
+
+                        if (array_name === "vehicles"){
                             addvehicles(data);
-                        }
-                        else if (data.passengers.length > 0){
+                        }else if (array_name === "passengers"){
                             addpassengers(data);
                         }
                     }
@@ -92,7 +93,7 @@
                     }
 
                     function addpassengers(pass_data){
-                        for (var pass_index = 0; index < pass_data.passengers.length; pass_index++){
+                        for (var pass_index = 0; pass_index < pass_data.passengers.length; pass_index++){
                             addPassengerMarker(pass_data.passengers[pass_index]);
                         }
                     }
@@ -142,7 +143,7 @@
                             content: pass_contentString
                         });
 
-                        vehicleMarker.addListener('click', function(){
+                        passengerMarker.addListener('click', function(){
                             infowindow.open(map, passengerMarker);
                         });
                     }
